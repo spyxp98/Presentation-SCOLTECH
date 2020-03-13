@@ -1,0 +1,198 @@
+\documentclass[12pt]{article}
+
+\textheight 25cm
+\topmargin -1cm
+\textwidth 16cm
+\oddsidemargin 0cm
+
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+\usepackage{amssymb}
+\usepackage{makeidx}
+\usepackage{graphicx}
+\begin{document}
+\begin{center}
+\textbf{Классическая и квантовая цепочка Тоды. Интегрируемость.}
+\end{center}
+\section{Классическая цепочка Тоды}
+\subsection{Гамильтониан}
+Замкнутая цепочка из $N$ одинаковых частиц массы $m = 1$ с экспоненциальным взаимодействием с ближайшими соседями:
+\begin{equation}\label{eq:Tods_hamilt}
+    H = \frac{1}{2} \sum_{n = 1}^{N} \frac{p^2_{n}}{2} + e^{q_{n} - q_{n + 1}}
+\end{equation}
+Это так называемая замкнутая цепочка Тоды. Модифицируем это выражение, чтобы описать одновременно случай периодичной, открытой и квазипериодичной цепочки:
+\begin{equation}\label{eq:quasiper_ham}
+    H = \frac{1}{2} \sum_{n = 1}^{N} \frac{p^2_{n}}{2} + \sum_{n = 1}^{N - 1} e^{q_{n} - q_{n+1}} + xe^{q_{N} - q_{1}}, x>0. 
+\end{equation}
+При $x = 0$ - открытая, $x = 1$ - периодичная, $x = \text{const} > 0$ - квазипериодичная.
+\subsection{Классическая интегрируемость}
+Перепишем \eqref{eq:Tods_hamilt} в виде 
+\begin{equation}
+    H = \frac{1}{2} \sum_{n = 1}^{N} \frac{p^2_{2n}}{2} + e^{q_{2n} - q_{2n + 2}}
+\end{equation}
+и совершим преобразование $\{ p_{2n}, q_{2n}\} \rightarrow \{ p_{2n + 1}, q_{2n+1}\} $ производящей функцией 
+\begin{equation}
+    \sum^{2N}_{n = 1} (-1)^n p_n dq_n
+\end{equation}
+Решением является, например, функция 
+\begin{equation}
+    W(q_n) = \sum_{n = 1}^{2N} (-1)^n (e^{q_n - q_{n + 1}} + c q_n), \ c = \text{const}.
+\end{equation}
+Отсюда можем получить 
+\begin{equation}
+    p_n = e^{q_n - q_{n+1}} + e^{q_{n-1} - q_n} + c
+\end{equation}
+Покажем, что это выражение не изменяет Гамильтониан, т.е. \textbf{НАПИСАТЬ ДОКАЗАТЕЛЬСТВО}
+\begin{equation}
+    \sum_{n = 1}^N \frac{1}{2}p_{2n}^2 + e^{q_{2n} - q_{2n + 2}} = \sum_{n = 1}^{N} \frac{1}{2}p_{2n-1}^2 + e^{q_{2n-1} - q_{2n + 1}}
+\end{equation}
+Получаем два связанных решения одной и той же гамильтоновой системы. Из уравнениий движения, приходим к следующему выражению 
+для вспомогательной величины $r_n = q_n - q_{n+1}$:
+\begin{equation}\label{eq:nesc_cond}
+    \dot{r} = e^{r_{n - 1}} - e^{r_{n+1}}
+\end{equation}
+Вводя вспомогательные функции $e^{q_n - \lambda t} = \rho_n \rho_{n-1}$, уравнение \eqref{eq:nesc_cond} переписывается в виде
+\begin{equation}\label{eq:new_eq}
+    \dot{\rho}_n = \rho_n \frac{\rho_{n-1}}{\rho_{n+1}}
+\end{equation}
+\textbf{ЭТО ДОЛЖНО БЫТЬ В ФАЙЛЕ С ДОКАЗАТЕЛЬСТВАМИ}. 
+\begin{equation}
+    \begin{array}{l}
+        \mu_n = \rho_{2n}e^{\lambda t} \\
+        \eta_n = \rho^{-1}_{2n + 1}
+    \end{array}
+\end{equation}
+\eqref{eq:new_eq} переписывается в виде 
+\begin{equation}
+    \begin{array}{l}
+        \dot{\mu}_n = \lambda \mu_n + e^{q_{2n}}\eta_n \\
+        \dot{\eta}_n = - e^{-q_{2n + 2}}\mu_n
+    \end{array}
+\end{equation}
+Вводя $X_n = 
+\begin{pmatrix}
+    \mu_n \\
+    \eta_n
+\end{pmatrix} 
+$ и $M_n = 
+\begin{pmatrix}
+    \lambda & e^{q_{2n}} \\
+    -e^{-q_{2n + 2}} & 0
+\end{pmatrix}
+$
+, получаем
+\begin{equation}\label{eq:matrix_eq}
+    \dot{X}_n = M_n X_n
+\end{equation}
+Можем также записать матрицу перехода 
+\begin{equation}\label{eq:creation_matrix}
+X_{n-1} = R_n X_n,   
+\end{equation}
+где $R_n = 
+\begin{pmatrix}
+    p_{2n} - \lambda & -e^{q_{2n}} \\
+    e^{-q_{2n}} & 0
+\end{pmatrix}
+$ \\
+Условие совместности \eqref{eq:matrix_eq} и \eqref{eq:creation_matrix} 
+\begin{equation}
+    \dot{R}_n = M_{n-1}R_n - R_n M_n
+\end{equation}
+Окончательно, можем записать матрицу перехода четной системы $Z = R_1 R_2 ... R_N$, такую что $X_0 = Z X_N$. 
+Полином $tr \ Z(\lambda)$ степени $N$ по $\lambda$ является интегралом движения при $\lambda = \text{const}$. При таком $\lambda$ также \eqref{eq:new_eq} переходит в уравнения движения.
+Отсюда следует, что коэффициенты полинома $tr \ Z(\lambda)$ - интегралы движения. Таким образом, цепочка Тоды - интегрируема по Луивиллю. 
+\section{Квантовая цепочка Тоды}
+\subsection{Квантование}
+Гамильтониан квантовой цепочки Тоды дается выражением \eqref{eq:Tods_hamilt}, но теперь $q_{2n}, p_{2n}$ - канонически сопряженные переменные
+\begin{equation}
+    [p_{2n}, q_{2m}] = - i \delta_{nm}
+\end{equation} 
+\subsection{Интегрируемость}
+Определим $S(q_{n}) = \text{exp}(i W(q_n))$. Покажем, что $[S, Z(\lambda)] = 0$. \textbf{ЭТО ПОЙДЕТ В ДОКАЗАТЕЛЬСТВА} \\ 
+Гамильтониан $H$ пропорционален коэффициенту при $\lambda^{N-2}$ в $Z(\lambda)$ (\textbf{ПОЧЕМУ?}).\\
+\textbf{ДАЛЬШЕ ПОНЯТЬ ЧТО ТУТ ПИСАТЬ.}
+\section{Интегрируемость и уравнение Янга-Бакстера}
+\subsection{Уравнение Янга-Бакстера и $RLL$-алгебра}
+Напомним некоторые определения. Пусть $A$ - аглебра Ли группы Ли $G$ и $V_j$ - пространства представлений $\rho_j$ алгебры $A$. 
+Рассмотрим уравнение Янга-Бакстера в общей форме c аддитивными параметрами
+\begin{equation}\label{eq:YB}
+    R_{12}(u)R_{13}(u+v)R_{23}(v) = R_{23}(v)R_{13}(u+v)R_{12}(u) \in End(V_1 \otimes V_2 \otimes V_3)
+\end{equation}
+Общее соотношение \eqref{eq:YB} задает $RLL$-соотношение, если в двух из трех пространст $V_1 = V_2 = V_f$
+задано фундаментальное представление $\rho_f$, а $V_3 = V$ - пространство представления $\rho$ алгебры $A$.
+В этом случае $R$-оператор, действующий в пространсте $V_f \otimes V$ называется $L$-оператором или $L$-матрицей. Тогда соотношения для $RLL$-алгебры записываются как 
+\begin{equation}\label{eq:RLL}
+    R_{12}(u-v)L_1(u)L_2(v) = L_2(v)L_1(u)R_{12}(u-v)
+\end{equation}
+\subsection{Интегрируемость классической цепочки по новому}
+Вспомним об имеющейся у нас матрице $R_n (\lambda) = 
+\begin{pmatrix}
+    p_{2n} - \lambda & e^{q_{2n}} \\
+    e^{-q_{2n}} & 0
+\end{pmatrix} = L_n (\lambda)$. Эти матрицы унимодальны и содержутся в фундаментальном представлении $SL(2, \mathbb{C})$.
+Метод, используемый далее, строится на замечательном факте 
+\begin{equation}\label{eq:almost_rll}
+    \{ (L_n(u))^{a_1}_{b_1}, (L_m(v))^{a_2}_{b_2} \} = [r(u - v), L_n(u) \otimes L_m(v)]^{a_1 a_2}_{b_1 b_2} \delta_{nm}
+\end{equation}
+где 
+\begin{equation}
+    r(u-v)^{a_1 a_2}_{b_1 b_2} = - \frac{1}{u-v}\delta^{a_1}_{b_2} \delta^{a_2}_{b_1}
+\end{equation}
+введем вспомогательные величины: матрицу монодромии $T_N(u) = L_1(u) ... L_{2N}(u) = 
+\begin{pmatrix}
+    A_N(u) & B_N(u) \\
+    C_N(u) & D_N(u)
+\end{pmatrix}$
+и ее взвешенный след 
+\begin{equation}
+    t_N(u, x) = \frac{1}{\sqrt{x}}A_N(u) + \sqrt{x} D_N(u) = tr \ X T_N(u)
+\end{equation}
+где $X = 
+\begin{pmatrix}
+    \frac{1}{\sqrt{x}} & 0 \\
+    0 & \sqrt{x}
+\end{pmatrix}$. Заметим, что 
+\begin{equation}
+    [r(u-v), X \otimes X] = 0.
+\end{equation}
+и т.к. выполнено \eqref{eq:almost_rll}, то 
+\begin{equation}
+    \{t_N(u, x), t_N(v, x) \} = 0
+\end{equation}
+\textbf{ПОЧЕМУ??}. Поскольку $t_N(v, x)$ -полином степени $N$ по $u$:
+\begin{equation}
+    t_N(u, x) = x^{-1/2}(u^N + t_1 u^{N-1} + ... + t_N)
+\end{equation}
+, то коэффициенты $t_j, j = 1, ..., N$ находятся в инволюции $\{t_i, t_j \} = 0, i \neq j$.
+Отсюда следует интегрируемость по Луивиллю классической цепочки Тоды (т.к. $H$ представим через $t_j$).
+\subsection{Интегрируемость квантовой цепочки Тоды}
+Условие \eqref{eq:almost_rll} заменяется в квантовом случае на условие 
+\begin{equation}\label{eq:Tods_RLL}
+    R(u-v)(L_N(u)\otimes I)(I \otimes L_N(v)) = (I \otimes L_N(v))(L_N(u)\otimes I)R(u-v) 
+\end{equation}
+где 
+\begin{equation}
+    R(u-v) = (u-v)I - i\eta P
+\end{equation}
+Почему именно так? Заметим, что $r(u-v)$ из \eqref{eq:almost_rll} удовлетворяет тождеству
+\begin{equation}\label{eq:semicl_YB}
+    [r_{12}(u), r_{13}(u+v)] + [r_{12}(u), r_{23}(v)] + [r_{12}(u+v), r_{23}(v)] = 0
+\end{equation}
+Если положить теперь 
+\begin{equation}
+    \begin{array}{l}
+        R_{ab}(u, \eta)|_{\eta = 0} = I \\
+        \frac{\partial}{\partial \eta}R_{ab(u, \eta)}|_{\eta = 0} = r_{ab}(u)
+    \end{array}
+\end{equation}
+То уравнение \eqref{eq:YB} будет полуклассическим приближением уравнения \eqref{eq:semicl_YB}. 
+Выражение \eqref{eq:Tods_RLL} играет в квантовом случае ту же роль, что и \eqref{eq:almost_rll} в классическом случае,
+а именно обеспечивает коммутативность 
+\begin{equation}
+    [t_N(u, x), t_N(v, x)] = 0
+\end{equation}
+и, как следствие, $\tau_N(u,x) = \ln t_N(u, x)$ - генератор локальных интегралов движения. \textbf{И ЧТО? ГДЕ ИНТЕГРИРУЕМОСТЬ??}
+\end{document}
